@@ -7,3 +7,4 @@ edition = "2021"
 log = "*"
 actix-web = "*"
 serde = { version = "*", features = ["derive"] }
+sqlx = { version = "*", features = ["postgres", "runtime-actix-rustls"] }
