@@ -1,0 +1,9 @@
+[package]
+name = "tiny-x"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+log = "*"
+actix-web = "*"
+serde = { version = "*", features = ["derive"] }
