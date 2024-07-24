@@ -4,20 +4,23 @@ use log::info;
 use model::user::{UserCreationResult, UserLoginToken, UserPayload};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::env;
+use token::token_manager::TokenManager;
 
 pub mod model;
+pub mod token;
 
-struct AppState {
-    pool: PgPool,
+struct ServerData {
+    db_pool: PgPool,
+    token_manager: TokenManager,
 }
 
-async fn register(data: web::Data<AppState>, payload: web::Json<UserPayload>) -> impl Responder {
+async fn register(data: web::Data<ServerData>, payload: web::Json<UserPayload>) -> impl Responder {
     let result = sqlx::query_file!(
         "queries/register_user.sql",
         payload.username,
         payload.password
     )
-    .fetch_one(&data.pool)
+    .fetch_one(&data.db_pool)
     .await;
 
     match result {
@@ -31,9 +34,9 @@ async fn register(data: web::Data<AppState>, payload: web::Json<UserPayload>) ->
     }
 }
 
-async fn login(data: web::Data<AppState>, payload: web::Json<UserPayload>) -> impl Responder {
+async fn login(data: web::Data<ServerData>, payload: web::Json<UserPayload>) -> impl Responder {
     let result = sqlx::query_file!("queries/get_user.sql", payload.username, payload.password)
-        .fetch_one(&data.pool)
+        .fetch_one(&data.db_pool)
         .await;
 
     match result {
@@ -64,7 +67,10 @@ async fn main() -> std::io::Result<()> {
         .await
         .unwrap();
 
-    let state = web::Data::new(AppState { pool });
+    let state = web::Data::new(ServerData {
+        db_pool: pool,
+        token_manager: Default::default(),
+    });
 
     let port =
         &env::var("Y_SERVER_PORT").expect("Y_SERVER_PORT must be specified within the .env file.");
