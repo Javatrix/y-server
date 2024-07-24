@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 log = "*"
+rand = "*"
 actix-web = "*"
 serde = { version = "*", features = ["derive"] }
 sqlx = { version = "0.7", features = [ "runtime-tokio", "tls-rustls", "postgres" ] }

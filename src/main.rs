@@ -1,6 +1,6 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use dotenvy::dotenv;
-use model::user::{UserCreationResult, UserPayload};
+use model::user::{UserCreationResult, UserLoginToken, UserPayload};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::env;
 
@@ -30,6 +30,22 @@ async fn register(data: web::Data<AppState>, payload: web::Json<UserPayload>) ->
     }
 }
 
+async fn login(data: web::Data<AppState>, payload: web::Json<UserPayload>) -> impl Responder {
+    let result = sqlx::query_file!("queries/get_user.sql", payload.username, payload.password)
+        .fetch_one(&data.pool)
+        .await;
+
+    match result {
+        Ok(_) => {
+            let response = UserLoginToken {
+                token: rand::random(),
+            };
+            HttpResponse::Ok().json(response)
+        }
+        Err(err) => HttpResponse::InternalServerError().body(format!("Could not log in: {}", err)),
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().expect("No .env file found");
@@ -49,6 +65,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(state.clone())
             .route("/register", web::post().to(register))
+            .route("/login", web::get().to(login))
     })
     .bind("127.0.0.1:8080")?
     .run()

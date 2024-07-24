@@ -18,3 +18,8 @@ pub struct UserPayload {
 pub struct UserCreationResult {
     pub id: i32,
 }
+
+#[derive(Serialize)]
+pub struct UserLoginToken {
+    pub token: u32,
+}

@@ -2134,6 +2134,7 @@ dependencies = [
  "actix-web",
  "dotenvy",
  "log",
+ "rand",
  "serde",
  "sqlx",
  "tokio",
