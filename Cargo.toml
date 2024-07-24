@@ -4,10 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-log = "*"
-rand = "*"
-actix-web = "*"
-serde = { version = "*", features = ["derive"] }
-sqlx = { version = "0.7", features = [ "runtime-tokio", "tls-rustls", "postgres" ] }
-tokio = "*"
-dotenvy = "*"
+log = "0.4.22"
+env_logger = "0.11.4"
+rand = "0.8.5"
+actix-web = "4.8.0"
+serde = { version = "1.0.204", features = ["derive"] }
+sqlx = { version = "0.8.0", features = [ "runtime-tokio", "tls-rustls", "postgres" ] }
+tokio = "1.39.1"
+dotenvy = "0.15.7"
