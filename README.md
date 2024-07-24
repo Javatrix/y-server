@@ -37,6 +37,7 @@ cargo run
 ```
 
 # Roadmap
+- [ ] Containerization
 - [ ] A basic feed
 - [ ] User pages
 - [ ] Images in posts
