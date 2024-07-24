@@ -5,8 +5,13 @@ Y is a simplified, open source clone of X. It is written in pure Rust and is yet
 **Prerequisites:**
 - Rust toolchain
 - PostgreSQL
+- Git
 
-Database setup scripts are not yet available, so you need to setup it manually.
+```sh
+git clone https://github.com/Javatrix/y-server
+cd y-server
+```
+Database setup scripts are not yet available, so you need to set it up manually.
 To do so, enter the PostgreSQL prompt and paste in these commands:
 ```sql
 CREATE DATABASE y_db;
