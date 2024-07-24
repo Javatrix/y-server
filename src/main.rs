@@ -1,5 +1,9 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
-use auth::{token::TokenResponse, token_manager::TokenManager, user_auth_request::UserAuthRequest};
+use auth::{
+    token::TokenResponse,
+    token_manager::{self, TokenManager},
+    user_auth_request::UserAuthRequest,
+};
 use dotenvy::dotenv;
 use log::info;
 use serde::ser::Impossible;
@@ -62,15 +66,17 @@ async fn login(data: web::Data<ServerData>, payload: web::Json<UserPayload>) -> 
     }
 }
 
-async fn access_something_secure(
+async fn access_something_secret(
     data: web::Data<ServerData>,
     payload: web::Json<UserAuthRequest>,
 ) -> impl Responder {
-    if data
-        .token_manager
-        .lock()
-        .unwrap()
-        .owns_valid_token(&payload.username)
+    let mut token_manager = data.token_manager.lock().unwrap();
+    if token_manager.owns_valid_token(&payload.username)
+        && token_manager
+            .get_token(&payload.username)
+            .unwrap()
+            .get_value()
+            .eq(&payload.token)
     {
         return HttpResponse::Ok().body("Secret content :)");
     }
@@ -106,7 +112,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(state.clone())
             .route("/register", web::post().to(register))
             .route("/login", web::get().to(login))
-            .route("/secret", web::get().to(access_something_secure))
+            .route("/secret", web::get().to(access_something_secret))
     })
     .bind("127.0.0.1:".to_owned() + port)?
     .run()
