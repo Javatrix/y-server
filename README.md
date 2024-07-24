@@ -6,7 +6,7 @@ Y is a simplified, open source clone of X. It is written in pure Rust and is yet
 Database setup scripts are not yet available, so you need to setup PostgreSQL manually. Then, run
 ```sh
 cargo install sqlx-cli
-cargo sqlx migration run
+cargo sqlx migrate run
 ```
 To generate the required tables for the database.
 And then, as with any other Rust project:
