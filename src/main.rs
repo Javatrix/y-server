@@ -11,8 +11,8 @@ struct AppState {
 }
 
 async fn register(data: web::Data<AppState>, payload: web::Json<UserPayload>) -> impl Responder {
-    let result = sqlx::query!(
-        "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id",
+    let result = sqlx::query_file!(
+        "queries/register_user.sql",
         payload.username,
         payload.password
     )
