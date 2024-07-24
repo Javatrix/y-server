@@ -1,6 +1,7 @@
 use std::time::{Duration, Instant};
 
 use rand::{distributions::Alphanumeric, Rng};
+use serde::Serialize;
 
 pub struct Token {
     value: String,
@@ -8,12 +9,17 @@ pub struct Token {
     creation_time: Instant,
 }
 
+#[derive(Serialize)]
+pub struct TokenResponse {
+    pub token: String,
+}
+
 impl Token {
     pub fn new(owner: String) -> Self {
         Token {
             value: rand::thread_rng()
                 .sample_iter(&Alphanumeric)
-                .take(7)
+                .take(32)
                 .map(char::from)
                 .collect(),
             owner,

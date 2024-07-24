@@ -7,6 +7,12 @@ pub struct TokenManager {
     tokens: HashMap<String, Token>,
 }
 
+impl Default for TokenManager {
+    fn default() -> Self {
+        TokenManager::new(5 * 60)
+    }
+}
+
 impl TokenManager {
     pub fn new(token_lifetime: u64) -> Self {
         Self {
@@ -27,11 +33,5 @@ impl TokenManager {
     pub fn owns_valid_token(&mut self, owner: &String) -> bool {
         let token = self.get_token(owner);
         token.is_some() && token.unwrap().lifetime().as_secs() <= self.token_lifetime
-    }
-}
-
-impl Default for TokenManager {
-    fn default() -> Self {
-        TokenManager::new(5 * 60)
     }
 }
