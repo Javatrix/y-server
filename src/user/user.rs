@@ -15,7 +15,7 @@ pub struct UserPayload {
 }
 
 #[derive(Serialize)]
-pub struct UserCreationResult {
+pub struct UserIdResponse {
     pub id: i32,
 }
 

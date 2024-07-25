@@ -26,12 +26,16 @@ impl TokenManager {
         return self.get_token(owner).unwrap();
     }
 
-    pub fn get_token(&mut self, owner: &String) -> Option<&Token> {
+    pub fn get_token(&self, owner: &String) -> Option<&Token> {
         self.tokens.get(owner)
     }
 
-    pub fn owns_valid_token(&mut self, owner: &String) -> bool {
+    pub fn owns_valid_token(&self, owner: &String) -> bool {
         let token = self.get_token(owner);
         token.is_some() && token.unwrap().lifetime().as_secs() <= self.token_lifetime
+    }
+
+    pub fn is_valid(&self, owner: &String, token_value: &String) -> bool {
+        self.owns_valid_token(owner) && *self.get_token(owner).unwrap().get_value() == *token_value
     }
 }
