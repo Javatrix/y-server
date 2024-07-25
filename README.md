@@ -1,4 +1,9 @@
-# Y Server
+<p align="center">
+<img src="https://github.com/Javatrix/y-server/blob/main/y.webp" width="25%" alt="tsuki-chan"/>
+</p>
+
+<h1 align="center">Y Server</h1>
+
 Y is a simplified, open source clone of X. It is written in pure Rust and is yet another project I use to level up my Rust skills. This repo stores the code of the Y server, which is separate from the client app. The client has not started being developed yet. When it does, I will include the link here.
 
 # Building and running
