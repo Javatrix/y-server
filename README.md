@@ -41,6 +41,7 @@ cargo run
 - [ ] A basic feed
 - [ ] User pages
 - [ ] Images in posts
-- [ ] Post creation, editing
+- [ ] Post editing/removing
+- [x] Post creation
 - [x] Timed login session
 - [x] User registration
