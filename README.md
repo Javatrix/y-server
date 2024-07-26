@@ -43,6 +43,7 @@ cargo run
 
 # Roadmap
 - [ ] Containerization
+- [ ] Searching posts and users, tags
 - [ ] A basic feed
 - [ ] User pages
 - [ ] Images in posts
